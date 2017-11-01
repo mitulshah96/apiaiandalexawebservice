@@ -1,0 +1,158 @@
+{
+    "owner": "277026",
+    "lastUpdatedBy": "277026",
+    "lastRevision": 2468835962,
+    "team": null,
+    "id": "5ed950c3-b79f-7067-a651-1d988a53ea1e",
+    "name": "office emails",
+    "description": "",
+    "folders_order": [],
+    "order": [
+        "fe0c5d99-c196-7246-17fd-6bfa76c29316",
+        "4de9a3cc-080f-416e-a1af-25edde7b8671",
+        "8a827a48-b773-6b10-b56e-5720b10086d9",
+        "5fd0994f-a29f-ed67-15a9-76f9a947f24d"
+    ],
+    "folders": [],
+    "hasRequests": true,
+    "requests": [
+        {
+            "id": "4de9a3cc-080f-416e-a1af-25edde7b8671",
+            "headers": "Content-Type: application\/json\n",
+            "headerData": [
+                {
+                    "key": "Content-Type",
+                    "value": "application\/json",
+                    "description": "",
+                    "enabled": true
+                }
+            ],
+            "url": "https:\/\/prioriti.net\/mailms\/subscribe",
+            "folder": null,
+            "queryParams": [],
+            "preRequestScript": null,
+            "pathVariables": [],
+            "pathVariableData": [],
+            "method": "POST",
+            "data": [],
+            "dataMode": "raw",
+            "tests": null,
+            "currentHelper": "normal",
+            "helperAttributes": [],
+            "time": 1509439959736,
+            "name": "https:\/\/prioriti.net\/mailms\/subscribe",
+            "description": "",
+            "collectionId": "5ed950c3-b79f-7067-a651-1d988a53ea1e",
+            "responses": [],
+            "rawModeData": "{\n  \"mailServer\" : \"Microsoft\",\n  \"uniqueCode\" : \"M4e134835-c5c3-9968-4f3a-56427de65f07\",\n        \"redirectURI\" : \"http:\/\/localhost:4200\"\n}"
+        },
+        {
+            "folder": null,
+            "id": "5fd0994f-a29f-ed67-15a9-76f9a947f24d",
+            "name": "https:\/\/prioriti.net\/mailms\/calendar\/events",
+            "dataMode": "raw",
+            "data": [],
+            "rawModeData": "{\n  \"startDateTime\":\"2017-10-20T14:02:51Z\",\n  \"endDateTime\": \"2017-10-30T14:02:51Z\"\n}",
+            "descriptionFormat": "html",
+            "description": "",
+            "headers": "Content-Type: application\/json\nX-Mail-Id: kumard8308887772@gmail.com\n",
+            "method": "POST",
+            "pathVariables": [],
+            "url": "https:\/\/prioriti.net\/mailms\/calendar\/events",
+            "preRequestScript": null,
+            "tests": null,
+            "currentHelper": "normal",
+            "helperAttributes": "{}",
+            "queryParams": [],
+            "headerData": [
+                {
+                    "key": "Content-Type",
+                    "value": "application\/json",
+                    "description": "",
+                    "enabled": true
+                },
+                {
+                    "key": "X-Mail-Id",
+                    "value": "kumard8308887772@gmail.com",
+                    "description": "",
+                    "enabled": true
+                }
+            ],
+            "pathVariableData": [],
+            "responses": [],
+            "collectionId": "5ed950c3-b79f-7067-a651-1d988a53ea1e"
+        },
+        {
+            "id": "8a827a48-b773-6b10-b56e-5720b10086d9",
+            "headers": "X-Mail-Id: M4e134835-c5c3-9968-4f3a-56427de65f07\nContent-Type: application\/json\n",
+            "headerData": [
+                {
+                    "key": "X-Mail-Id",
+                    "value": "M4e134835-c5c3-9968-4f3a-56427de65f07",
+                    "description": "",
+                    "enabled": true
+                },
+                {
+                    "key": "Content-Type",
+                    "value": "application\/json",
+                    "description": "",
+                    "enabled": true
+                }
+            ],
+            "url": "https:\/\/prioriti.net\/mailms\/mail\/offset\/0\/limit\/4",
+            "folder": null,
+            "queryParams": [],
+            "preRequestScript": null,
+            "pathVariables": [],
+            "pathVariableData": [],
+            "method": "POST",
+            "data": [],
+            "dataMode": "raw",
+            "tests": null,
+            "currentHelper": "normal",
+            "helperAttributes": [],
+            "time": 1509439958553,
+            "name": "https:\/\/prioriti.net\/mailms\/mail\/offset\/0\/limit\/4",
+            "description": "",
+            "collectionId": "5ed950c3-b79f-7067-a651-1d988a53ea1e",
+            "responses": [],
+            "rawModeData": "{\n  \"type\":\"Inbox\",\n  \"fields\": [\"Subject\",\"BodyPreview\", \"ReplyTo\", \"From\", \"ReceivedDateTime\", \"IsRead\"], \n  \"filters\" : {\n        \"field\" : {\n            \"key\": \"isRead\",\n            \"value\": \"false\",\n            \"criteria\": \"eq\"\n        }\n  }\n}"
+        },
+        {
+            "folder": null,
+            "id": "fe0c5d99-c196-7246-17fd-6bfa76c29316",
+            "name": "https:\/\/prioriti.net\/mailms\/subscribe\/signin\/uri",
+            "dataMode": "raw",
+            "data": [],
+            "rawModeData": "{\n  \"mailServer\" : \"Microsoft\",\n  \"redirectURI\" : \"http:\/\/localhost:4200\"\n}",
+            "descriptionFormat": "html",
+            "description": "",
+            "headers": "Content-Type: application\/json\n",
+            "method": "POST",
+            "pathVariables": [],
+            "url": "https:\/\/prioriti.net\/mailms\/subscribe\/signin\/uri",
+            "preRequestScript": null,
+            "tests": null,
+            "currentHelper": "normal",
+            "helperAttributes": "{}",
+            "queryParams": [],
+            "headerData": [
+                {
+                    "key": "Content-Type",
+                    "value": "application\/json",
+                    "description": "",
+                    "enabled": true
+                },
+                {
+                    "key": "",
+                    "value": "",
+                    "description": "",
+                    "enabled": true
+                }
+            ],
+            "pathVariableData": [],
+            "responses": [],
+            "collectionId": "5ed950c3-b79f-7067-a651-1d988a53ea1e"
+        }
+    ]
+}
