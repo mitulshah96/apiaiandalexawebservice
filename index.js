@@ -3,8 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const request = require('request');
 const configobject = require('./config')
-const emailURL = require('./config')
-
+const moment = require('moment');
 app.use(bodyParser.json())
 app.set('port', (process.env.PORT || 4200))
 
@@ -17,6 +16,7 @@ app.get('/webhook', function (req, res) {
 })
 
 app.post('/webhook', function (req, res) {
+  console.log("Hello")
   if (req.headers['x-forwarded-proto'] != 'apiai') {
     //console.log('Amazon');
     res.setHeader('Content-Type', 'application/json');
@@ -28,9 +28,12 @@ app.post('/webhook', function (req, res) {
       //console.log(req.body)
       return req.body.request.intent.name;
     }
+
     function getResponse() {
       return configobject.config;
     }
+
+
     function processRequest() {
       let actionName = getActionName();
       // //console.log(actionName)
@@ -39,10 +42,10 @@ app.post('/webhook', function (req, res) {
 
 
       if (actionName === 'Email_widget_intent') {
-        console.log(actionName)
+        console.log(actionName);
         var emailsArray = [];
-        let emailURL = configobject.emailURL
-        let requestData = configobject.requestData
+        let emailURL = configobject.emailURL;
+        let requestData = configobject.requestData;
 
         request({
           headers: { 'X-Mail-Id': 'Ma510db45-fcf5-cd45-001f-5c09e39a288d' },
@@ -58,11 +61,41 @@ app.post('/webhook', function (req, res) {
           //console.log(emailsArray);
           response.response.outputSpeech.ssml = "<speak> This is what show up in  Your mail " + emailsArray + "</speak>"
           response.response.speechletResponse.outputSpeech.ssml = "<speak> This is what show up in your mail" + emailsArray + "</speak>"
+         // console.log(response)
           res.send(response);
         });
       }
 
 
+     else if (actionName === 'calendar_events') {
+        console.log(actionName)
+        var eventsArray = [];
+        let eventURL = configobject.eventURL;
+        let eventrequestData = configobject.eventrequestData;
+
+        request({
+          headers: { 'X-Mail-Id': 'Ma510db45-fcf5-cd45-001f-5c09e39a288d' },
+          url: eventURL,
+          method: "POST",
+          json: eventrequestData
+        }, function (error, resp, body) {
+          let dataArray = body.result[0].events;
+          for (let i in dataArray) {
+            eventsArray += "Event is on " + dataArray[i].subject + "  and is scheduled on " + moment(dataArray[i].start.dateTime).format("YYYY-MM-DD") + " at " + dataArray[i].location.displayName + " . which is organized by  " +
+              dataArray[i].organizer.emailAddress.name + " . and ends on " + moment(dataArray[i].end.dateTime).format("YYYY-MM-DD")
+          }
+          console.log(eventsArray);
+          if (eventsArray.length > 0) {
+            response.response.outputSpeech.ssml = "<speak> Your " + eventsArray + "</speak>"
+            response.response.speechletResponse.outputSpeech.ssml = "<speak> Your events are" + eventsArray + "</speak>"
+            res.send(response);
+          } else {
+            response.response.outputSpeech.ssml = "<speak> No Events is scheduled .</speak>"
+            response.response.speechletResponse.outputSpeech.ssml = "<speak> No Events is scheduled .</speak>"
+            res.send(response);
+          }
+        });
+      }
 
       else if (actionName === 'Recent_news') {
         console.log(actionName)

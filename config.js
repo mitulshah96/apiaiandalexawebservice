@@ -27,9 +27,22 @@ let configobject = {
     }
   },
 
+  eventrequestData : {
+    "limit": 5,
+    "filters": {
+      "field": {
+        "key": "endDateTime",
+        "value": "2017-10-25T20:15:00.0000000",
+        "criteria": "ge"
+      }
+    }
+  },
+
   "emailURL": "https://prioriti.net/mailms/mail/offset/0/limit/4",
 
   "newsURL": "http://54.82.196.182:8080/o/webcontent-service/contents/categories/recent",
+
+  "eventURL":"https://prioriti.net/mailms/calendar/events",
 
 }
 
