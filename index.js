@@ -58,16 +58,22 @@ app.post('/webhook', function (req, res) {
           for (let i in dataArray) {
             emailsArray += dataArray[i].subject + ". email sent from " + dataArray[i].from.emailAddress.name + " . Preview of mail is " + dataArray[i].bodyPreview
           }
-          //console.log(emailsArray);
-          response.response.outputSpeech.ssml = "<speak> This is what show up in  Your mail " + emailsArray + "</speak>"
-          response.response.speechletResponse.outputSpeech.ssml = "<speak> This is what show up in your mail" + emailsArray + "</speak>"
-         // console.log(response)
-          res.send(response);
+
+          if (emailsArray.length > 0) {
+            //console.log(emailsArray);
+            response.response.outputSpeech.ssml = "<speak> This is what show up in  Your mail " + emailsArray + "</speak>"
+            response.response.speechletResponse.outputSpeech.ssml = "<speak> This is what show up in your mail" + emailsArray + "</speak>"
+            res.send(response);
+          } else {
+            response.response.outputSpeech.ssml = "<speak> No Unread emails are available .</speak>"
+            response.response.speechletResponse.outputSpeech.ssml = "<speak> No Unread emails are available .</speak>"
+            res.send(response);
+          }
         });
       }
 
 
-     else if (actionName === 'calendar_events') {
+      else if (actionName === 'calendar_events') {
         console.log(actionName)
         var eventsArray = [];
         let eventURL = configobject.eventURL;
@@ -110,7 +116,9 @@ app.post('/webhook', function (req, res) {
 
 
           for (let i in dataArray) {
+            if(Object.getOwnPropertyNames( dataArray[i].content).length!==0){
             newsdata += dataArray[i].content.summary + " ";
+            }
             //newsArray.push(newsdata);
           }
           console.log(newsdata);
