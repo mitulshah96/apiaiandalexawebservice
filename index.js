@@ -16,7 +16,8 @@ app.get('/webhook', function (req, res) {
 })
 
 app.post('/webhook', function (req, res) {
-  console.log("Hello")
+  // console.log("Hello")
+  var accesstoken = '';
   if (req.headers['x-forwarded-proto'] != 'apiai') {
     //console.log('Amazon');
     res.setHeader('Content-Type', 'application/json');
@@ -26,6 +27,8 @@ app.post('/webhook', function (req, res) {
 
     function getActionName() {
       //console.log(req.body)
+      accesstoken = req.body.session.user.accessToken;
+      //console.log(accesstoken);
       return req.body.request.intent.name;
     }
 
@@ -45,22 +48,25 @@ app.post('/webhook', function (req, res) {
         console.log(actionName);
         var emailsArray = [];
         let emailURL = configobject.emailURL;
-        let requestData = configobject.requestData;
+       // let requestData = configobject.requestData;
 
         request({
-          headers: { 'X-Mail-Id': 'Ma510db45-fcf5-cd45-001f-5c09e39a288d' },
+          headers: {
+            'Accept':'application/json',
+            'Authorization':'Bearer'+accesstoken
+          },
           url: emailURL,
-          method: "POST",
-          json: requestData
+          method: "GET"
           // body:    "mailServer=Microsoft;"
         }, function (error, resp, body) {
-          let dataArray = body.result;
+          let dataArray = JSON.parse(body);
+          dataArray=dataArray.value
           for (let i in dataArray) {
-            emailsArray += dataArray[i].subject + ". email sent from " + dataArray[i].from.emailAddress.name + " . Preview of mail is " + dataArray[i].bodyPreview
+            emailsArray += dataArray[i].subject + ". Email sent from "+dataArray[i].from.emailAddress.name +" . Preview of mail is " + dataArray[i].bodyPreview
           }
 
           if (emailsArray.length > 0) {
-            //console.log(emailsArray);
+            console.log(emailsArray);
             response.response.outputSpeech.ssml = "<speak> This is what show up in  Your mail " + emailsArray + "</speak>"
             response.response.speechletResponse.outputSpeech.ssml = "<speak> This is what show up in your mail" + emailsArray + "</speak>"
             res.send(response);
@@ -77,21 +83,26 @@ app.post('/webhook', function (req, res) {
         console.log(actionName)
         var eventsArray = [];
         let eventURL = configobject.eventURL;
-        let eventrequestData = configobject.eventrequestData;
+       // let eventrequestData = configobject.eventrequestData;
 
         request({
-          headers: { 'X-Mail-Id': 'Ma510db45-fcf5-cd45-001f-5c09e39a288d' },
+          headers: {
+            'Accept':'application/json',
+            'Authorization':'Bearer'+accesstoken
+        },
           url: eventURL,
-          method: "POST",
-          json: eventrequestData
+          method: "GET",
+         // json: eventrequestData
         }, function (error, resp, body) {
-          let dataArray = body.result[0].events;
+          let dataArray = JSON.parse(body);
+          dataArray=dataArray.value
           for (let i in dataArray) {
-            eventsArray += "Event is on " + dataArray[i].subject + "  and is scheduled on " + moment(dataArray[i].start.dateTime).format("YYYY-MM-DD") + " at " + dataArray[i].location.displayName + " . which is organized by  " +
-              dataArray[i].organizer.emailAddress.name + " . and ends on " + moment(dataArray[i].end.dateTime).format("YYYY-MM-DD")
+            eventsArray += "Event is on " + dataArray[i].subject + "  and is scheduled on " + moment(dataArray[i].start.dateTime).format("YYYY-MM-DD") + " . which is organized by  " +
+              dataArray[i].organizer.emailAddress.name + " . and ends on " + moment(dataArray[i].end.dateTime).format("YYYY-MM-DD") + ". "
           }
-          console.log(eventsArray);
+        //  console.log(eventsArray);
           if (eventsArray.length > 0) {
+           // console.log(eventsArray)
             response.response.outputSpeech.ssml = "<speak> Your " + eventsArray + "</speak>"
             response.response.speechletResponse.outputSpeech.ssml = "<speak> Your events are" + eventsArray + "</speak>"
             res.send(response);
@@ -116,8 +127,8 @@ app.post('/webhook', function (req, res) {
 
 
           for (let i in dataArray) {
-            if(Object.getOwnPropertyNames( dataArray[i].content).length!==0){
-            newsdata += dataArray[i].content.summary + " ";
+            if (Object.getOwnPropertyNames(dataArray[i].content).length !== 0) {
+              newsdata += dataArray[i].content.summary + " ";
             }
             //newsArray.push(newsdata);
           }
@@ -129,7 +140,7 @@ app.post('/webhook', function (req, res) {
         });
       }
 
-
+      //jtnEWK03&pguqJGMX553:-]
 
 
 
