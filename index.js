@@ -28,7 +28,7 @@ app.post('/webhook', function (req, res) {
     function getActionName() {
       //console.log(req.body)
       accesstoken = req.body.session.user.accessToken;
-      //console.log(accesstoken);
+      console.log(req.body.request.intent);
       return req.body.request.intent.name;
     }
 
@@ -48,21 +48,21 @@ app.post('/webhook', function (req, res) {
         console.log(actionName);
         var emailsArray = [];
         let emailURL = configobject.emailURL;
-       // let requestData = configobject.requestData;
+        // let requestData = configobject.requestData;
 
         request({
           headers: {
-            'Accept':'application/json',
-            'Authorization':'Bearer'+accesstoken
+            'Accept': 'application/json',
+            'Authorization': 'Bearer' + accesstoken
           },
           url: emailURL,
           method: "GET"
           // body:    "mailServer=Microsoft;"
         }, function (error, resp, body) {
           let dataArray = JSON.parse(body);
-          dataArray=dataArray.value
+          dataArray = dataArray.value
           for (let i in dataArray) {
-            emailsArray += dataArray[i].subject + ". Email sent from "+dataArray[i].from.emailAddress.name +" . Preview of mail is " + dataArray[i].bodyPreview
+            emailsArray += dataArray[i].subject + ". Email sent from " + dataArray[i].from.emailAddress.name + " . Preview of mail is " + dataArray[i].bodyPreview
           }
 
           if (emailsArray.length > 0) {
@@ -83,26 +83,26 @@ app.post('/webhook', function (req, res) {
         console.log(actionName)
         var eventsArray = [];
         let eventURL = configobject.eventURL;
-       // let eventrequestData = configobject.eventrequestData;
+        // let eventrequestData = configobject.eventrequestData;
 
         request({
           headers: {
-            'Accept':'application/json',
-            'Authorization':'Bearer'+accesstoken
-        },
+            'Accept': 'application/json',
+            'Authorization': 'Bearer' + accesstoken
+          },
           url: eventURL,
           method: "GET",
-         // json: eventrequestData
+          // json: eventrequestData
         }, function (error, resp, body) {
           let dataArray = JSON.parse(body);
-          dataArray=dataArray.value
+          dataArray = dataArray.value
           for (let i in dataArray) {
             eventsArray += "Event is on " + dataArray[i].subject + "  and is scheduled on " + moment(dataArray[i].start.dateTime).format("YYYY-MM-DD") + " . which is organized by  " +
               dataArray[i].organizer.emailAddress.name + " . and ends on " + moment(dataArray[i].end.dateTime).format("YYYY-MM-DD") + ". "
           }
-        //  console.log(eventsArray);
+          //  console.log(eventsArray);
           if (eventsArray.length > 0) {
-           // console.log(eventsArray)
+            console.log(eventsArray)
             response.response.outputSpeech.ssml = "<speak> Your " + eventsArray + "</speak>"
             response.response.speechletResponse.outputSpeech.ssml = "<speak> Your events are" + eventsArray + "</speak>"
             res.send(response);
@@ -231,8 +231,8 @@ app.post('/webhook', function (req, res) {
       }
 
       else {
-        response.response.outputSpeech.ssml = "<speak> Something went wrong can u repeat it again </speak>"
-        response.response.speechletResponse.outputSpeech.ssml = "<speak> Something went wrong can u repeat it again </speak>"
+        response.response.outputSpeech.ssml = "<speak> Something went wrong can u say it again </speak>"
+        response.response.speechletResponse.outputSpeech.ssml = "<speak> Something went wrong can u say it again </speak>"
         res.send(response)
       }
 
